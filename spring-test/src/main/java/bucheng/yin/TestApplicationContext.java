@@ -15,7 +15,7 @@ public class TestApplicationContext {
 		applicationContext.register(TestConfiguration.class);
 		applicationContext.register(AnnotationAwareAspectJAutoProxyCreator.class);
 		applicationContext.refresh();
-		TestBean bean = applicationContext.getBean(TestBean.class);
+		TestBean bean = applicationContext.getBean("testBean",TestBean.class);
 		bean.show();
 	}
 }

@@ -214,6 +214,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	public String canonicalName(String name) {
 		String canonicalName = name;
 		// Handle aliasing...
+		//解析别名提取出真正的名称
 		String resolvedName;
 		do {
 			resolvedName = this.aliasMap.get(canonicalName);

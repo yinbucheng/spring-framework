@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
  * @Author buchengyin
  * @Date 2019/4/12 18:42
  **/
-@Component
+@Component("testBean")
 public class TestBean {
 	public void show(){
 		System.out.println("------->show<--------");

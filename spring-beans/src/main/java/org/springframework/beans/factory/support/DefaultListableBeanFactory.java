@@ -425,17 +425,20 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						//通过ioc中的数据结构和name判断其是否为工厂类
 						boolean isFactoryBean = isFactoryBean(beanName, mbd);
 						BeanDefinitionHolder dbd = mbd.getDecoratedDefinition();
+						//这里判断当当前name标示对应的类为非FactoryBean时其类型和传入参数是否匹配
 						boolean matchFound =
 								(allowEagerInit || !isFactoryBean ||
 										(dbd != null && !mbd.isLazyInit()) || containsSingleton(beanName)) &&
 								(includeNonSingletons ||
 										(dbd != null ? mbd.isSingleton() : isSingleton(beanName))) &&
 								isTypeMatch(beanName, type);
+						//这里判断当当前类为FactoryBean时其上面getType方法是否和传入类型匹配
 						if (!matchFound && isFactoryBean) {
 							// In case of FactoryBean, try to match FactoryBean instance itself next.
 							beanName = FACTORY_BEAN_PREFIX + beanName;
 							matchFound = (includeNonSingletons || mbd.isSingleton()) && isTypeMatch(beanName, type);
 						}
+						//如果当前满足将name标示添加到结果集合中去
 						if (matchFound) {
 							result.add(beanName);
 						}
@@ -1010,11 +1013,14 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 
+		//如果获取到的name标示只有唯一一个调用其上面getBean重载方法
 		if (candidateNames.length == 1) {
 			String beanName = candidateNames[0];
 			return new NamedBeanHolder<>(beanName, getBean(beanName, requiredType, args));
 		}
+		//如果获取到的name标示有多个则找到最优的
 		else if (candidateNames.length > 1) {
+			//将name标示转变为对象并进行一一关系对应
 			Map<String, Object> candidates = new LinkedHashMap<>(candidateNames.length);
 			for (String beanName : candidateNames) {
 				if (containsSingleton(beanName) && args == null) {
@@ -1025,8 +1031,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					candidates.put(beanName, getType(beanName));
 				}
 			}
+			//如果有且只有一个类上面存在@Primary注解则返回对应的name标示
 			String candidateName = determinePrimaryCandidate(candidates, requiredType);
 			if (candidateName == null) {
+				//通过PriorityOrder找到优先级最高的name标示
 				candidateName = determineHighestPriorityCandidate(candidates, requiredType);
 			}
 			if (candidateName != null) {
@@ -1036,6 +1044,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 				return new NamedBeanHolder<>(candidateName, (T) beanInstance);
 			}
+			//如果都没有找到抛出指定异常
 			throw new NoUniqueBeanDefinitionException(requiredType, candidates.keySet());
 		}
 
