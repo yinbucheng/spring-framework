@@ -62,7 +62,9 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
 	 */
 	public AnnotationConfigApplicationContext() {
+		//注册常用的依赖配置
 		this.reader = new AnnotatedBeanDefinitionReader(this);
+		//这个用来加载目录上面的类对象到ioc容器中
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
 

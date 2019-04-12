@@ -1,5 +1,6 @@
 package bucheng.yin;
 
+import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -12,6 +13,7 @@ public class TestApplicationContext {
 		//测试ioc容器使用
 		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
 		applicationContext.register(TestConfiguration.class);
+		applicationContext.register(AnnotationAwareAspectJAutoProxyCreator.class);
 		applicationContext.refresh();
 		TestBean bean = applicationContext.getBean(TestBean.class);
 		bean.show();
