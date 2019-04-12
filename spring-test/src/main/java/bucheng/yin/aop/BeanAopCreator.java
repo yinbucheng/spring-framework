@@ -19,7 +19,7 @@ import java.util.List;
  * @Author buchengyin
  * @Date 2019/4/12 19:49
  **/
-@Component
+//@Component
 public class BeanAopCreator implements BeanPostProcessor , BeanFactoryAware {
 	private DefaultListableBeanFactory beanFactory;
 	private List<AopCondition> aopConditions;
