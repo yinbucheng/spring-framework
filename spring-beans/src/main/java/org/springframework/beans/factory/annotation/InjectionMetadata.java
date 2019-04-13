@@ -48,9 +48,9 @@ import org.springframework.util.ReflectionUtils;
 public class InjectionMetadata {
 
 	private static final Log logger = LogFactory.getLog(InjectionMetadata.class);
-
+    //进行解析的目标类型
 	private final Class<?> targetClass;
-
+   //满足条件收集到的注入元素，可以使用字段也可以使用方法上面收集到的
 	private final Collection<InjectedElement> injectedElements;
 
 	@Nullable
@@ -65,6 +65,7 @@ public class InjectionMetadata {
 
 	public void checkConfigMembers(RootBeanDefinition beanDefinition) {
 		Set<InjectedElement> checkedElements = new LinkedHashSet<>(this.injectedElements.size());
+		//变量刚才类上面解析出来的元素（当前类及继承）
 		for (InjectedElement element : this.injectedElements) {
 			Member member = element.getMember();
 			if (!beanDefinition.isExternallyManagedConfigMember(member)) {
@@ -87,6 +88,7 @@ public class InjectionMetadata {
 				if (logger.isDebugEnabled()) {
 					logger.debug("Processing injected element of bean '" + beanName + "': " + element);
 				}
+				//这里非为三种一种是AutowiredFieldElement,AutowiredMethodElement,InjectedElement
 				element.inject(target, beanName, pvs);
 			}
 		}

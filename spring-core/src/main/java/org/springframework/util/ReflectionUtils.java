@@ -364,9 +364,11 @@ public abstract class ReflectionUtils {
 	 * @see #doWithMethods
 	 */
 	public static void doWithLocalMethods(Class<?> clazz, MethodCallback mc) {
+		//获取当前类上所有方法，包括私有，友元，公用，静态。但不包括继承里面方法
 		Method[] methods = getDeclaredMethods(clazz);
 		for (Method method : methods) {
 			try {
+				//这里也是采用回调
 				mc.doWith(method);
 			}
 			catch (IllegalAccessException ex) {
@@ -697,8 +699,10 @@ public abstract class ReflectionUtils {
 	 * @see #doWithFields
 	 */
 	public static void doWithLocalFields(Class<?> clazz, FieldCallback fc) {
+		//变量获取当前类上面所有字段，包括私有公用，友元，静态
 		for (Field field : getDeclaredFields(clazz)) {
 			try {
+				//进行接口回调
 				fc.doWith(field);
 			}
 			catch (IllegalAccessException ex) {
