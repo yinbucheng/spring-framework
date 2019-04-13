@@ -30,3 +30,4 @@ def deps = compileGroovy.taskDependencies.immutableValues + compileGroovy.taskDe
 compileGroovy.dependsOn = deps - 'compileJava'
 compileKotlin.dependsOn(compileGroovy)
 compileKotlin.classpath += files(compileGroovy.destinationDir)
+
