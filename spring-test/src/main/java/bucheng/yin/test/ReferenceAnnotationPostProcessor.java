@@ -24,7 +24,10 @@ public class ReferenceAnnotationPostProcessor extends InstantiationAwareBeanPost
 
 	@Override
 	public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {
-
+		ReferenceAnnotationMetaData referenceAnnotationMetaData = cache.get(beanName);
+		if(referenceAnnotationMetaData!=null){
+			referenceAnnotationMetaData.inject();
+		}
 		return null;
 	}
 
