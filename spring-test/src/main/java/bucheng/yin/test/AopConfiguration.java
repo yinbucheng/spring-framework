@@ -1,4 +1,4 @@
-package bucheng.yin;
+package bucheng.yin.test;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class AopConfiguration {
 
 
-	@Before("execution(* *..yin.*.*(..))")
+	@Before("execution(* *..yin..*.*(..))")
 	public void before(){
 		System.out.println("--aop--before");
 	}

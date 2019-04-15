@@ -1,4 +1,4 @@
-package bucheng.yin;
+package bucheng.yin.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

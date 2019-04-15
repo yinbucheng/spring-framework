@@ -1,4 +1,4 @@
-package bucheng.yin;
+package bucheng.yin.test;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
