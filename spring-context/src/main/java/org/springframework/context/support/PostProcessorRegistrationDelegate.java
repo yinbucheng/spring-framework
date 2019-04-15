@@ -183,7 +183,7 @@ final class PostProcessorRegistrationDelegate {
 
 	public static void registerBeanPostProcessors(
 			ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) {
-
+        //获取ioc容器中所有BeanPostProcessor对象的name标示
 		String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false);
 
 		// Register BeanPostProcessorChecker that logs an info message when
@@ -194,9 +194,13 @@ final class PostProcessorRegistrationDelegate {
 
 		// Separate between BeanPostProcessors that implement PriorityOrdered,
 		// Ordered, and the rest.
+		//收集类上实现PriorityOrdered接口
 		List<BeanPostProcessor> priorityOrderedPostProcessors = new ArrayList<>();
+		//收集类上实现MergedBeanDefinitionPostProcessor接口
 		List<BeanPostProcessor> internalPostProcessors = new ArrayList<>();
+		//收集类上实现Order接口
 		List<String> orderedPostProcessorNames = new ArrayList<>();
+		//收集类上面没有任何实现Order接口
 		List<String> nonOrderedPostProcessorNames = new ArrayList<>();
 		for (String ppName : postProcessorNames) {
 			if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {

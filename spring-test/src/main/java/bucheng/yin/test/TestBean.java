@@ -1,6 +1,7 @@
 package bucheng.yin.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +15,10 @@ import org.springframework.stereotype.Component;
 public class TestBean {
 	@Autowired
 	private TestBean2 testBean2;
+	@Value("${name}")
+	private String name;
 	public void show(){
-		System.out.println("------->show<--------");
+		System.out.println("------->show<--------"+name);
 		testBean2.test();
 	}
 }
