@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class TestBean {
 	@Autowired
 	private TestBean2 testBean2;
-	@Value("${name}")
+	@Reference("yinchong_test")
 	private String name;
 	public void show(){
 		System.out.println("------->show<--------"+name);

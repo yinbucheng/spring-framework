@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @Date 2019/4/12 19:25
  **/
 @Aspect
-@Configuration
+//@Configuration
 public class AopConfiguration {
 
 
