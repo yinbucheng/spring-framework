@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
  * @Date 2019/4/12 19:25
  **/
 @Aspect
-//@Configuration
+@Configuration
 public class AopConfiguration {
 
 
-	@Before("execution(* *..yin..*.*(..))")
+	@Before("execution(* *..yin.test.*.*(..))")
 	public void before(){
 		System.out.println("--aop--before");
 	}

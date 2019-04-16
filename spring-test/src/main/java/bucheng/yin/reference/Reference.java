@@ -1,4 +1,4 @@
-package bucheng.yin.test;
+package bucheng.yin.reference;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

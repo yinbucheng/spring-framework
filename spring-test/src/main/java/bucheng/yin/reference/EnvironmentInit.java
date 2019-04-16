@@ -1,4 +1,4 @@
-package bucheng.yin.test;
+package bucheng.yin.reference;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationListener;

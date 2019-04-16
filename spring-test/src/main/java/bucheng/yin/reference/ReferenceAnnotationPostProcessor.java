@@ -1,5 +1,6 @@
-package bucheng.yin.test;
+package bucheng.yin.reference;
 
+import bucheng.yin.reference.Reference;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;
