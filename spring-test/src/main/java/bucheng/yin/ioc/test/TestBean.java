@@ -1,8 +1,7 @@
-package bucheng.yin.test;
+package bucheng.yin.ioc.test;
 
 import bucheng.yin.ioc.reference.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
  * @Date 2019/4/12 18:42
  **/
 @Component("testBean")
-@Lazy
 public class TestBean {
 	@Autowired
 	private TestBean2 testBean2;

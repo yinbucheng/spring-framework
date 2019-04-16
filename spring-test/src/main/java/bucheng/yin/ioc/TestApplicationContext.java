@@ -1,6 +1,6 @@
 package bucheng.yin.ioc;
 
-import bucheng.yin.test.TestBean;
+import bucheng.yin.ioc.test.TestBean;
 import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

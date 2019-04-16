@@ -1,4 +1,4 @@
-package bucheng.yin.test;
+package bucheng.yin.ioc.test;
 
 import org.springframework.stereotype.Component;
 
