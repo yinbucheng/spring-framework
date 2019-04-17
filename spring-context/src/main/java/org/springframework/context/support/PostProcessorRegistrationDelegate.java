@@ -206,6 +206,12 @@ final class PostProcessorRegistrationDelegate {
 		beanFactory.clearMetadataCache();
 	}
 
+	/**
+	 * 这个方法主要流程是从ioc容器中获取所有的BeanPostProcessor，按照PriorityOrder和Order及其他进行排序，
+	 * 按照PriorityOrder，Order，其他顺序添加到特定集合中去
+	 * @param beanFactory
+	 * @param applicationContext
+	 */
 	public static void registerBeanPostProcessors(
 			ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) {
         //获取ioc容器中所有BeanPostProcessor对象的name标示

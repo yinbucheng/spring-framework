@@ -222,10 +222,11 @@ public abstract class AopUtils {
 	 */
 	public static boolean canApply(Pointcut pc, Class<?> targetClass, boolean hasIntroductions) {
 		Assert.notNull(pc, "Pointcut must not be null");
+		//获取pointcut持有的ClassFilter并调用上面的matches方法
 		if (!pc.getClassFilter().matches(targetClass)) {
 			return false;
 		}
-
+       //获取pointcut持有的MethodMatcher方法
 		MethodMatcher methodMatcher = pc.getMethodMatcher();
 		if (methodMatcher == MethodMatcher.TRUE) {
 			// No need to iterate the methods if we're matching any method anyway...
@@ -283,8 +284,10 @@ public abstract class AopUtils {
 		if (advisor instanceof IntroductionAdvisor) {
 			return ((IntroductionAdvisor) advisor).getClassFilter().matches(targetClass);
 		}
+		//我们一遍是PointcutAdvisor的实现类AbstractBeanFactoryPointcutAdvisor（我们可以利用这个抽象类来实现aop动态改造）
 		else if (advisor instanceof PointcutAdvisor) {
 			PointcutAdvisor pca = (PointcutAdvisor) advisor;
+			//从PointcutAdvisor中获取Pointcut
 			return canApply(pca.getPointcut(), targetClass, hasIntroductions);
 		}
 		else {
@@ -302,6 +305,7 @@ public abstract class AopUtils {
 	 * (may be the incoming List as-is)
 	 */
 	public static List<Advisor> findAdvisorsThatCanApply(List<Advisor> candidateAdvisors, Class<?> clazz) {
+		//找到满足当前类的通知器
 		if (candidateAdvisors.isEmpty()) {
 			return candidateAdvisors;
 		}
@@ -317,6 +321,7 @@ public abstract class AopUtils {
 				// already processed
 				continue;
 			}
+			//通过当前类找到满足的通知器列表
 			if (canApply(candidate, clazz, hasIntroductions)) {
 				eligibleAdvisors.add(candidate);
 			}
