@@ -494,6 +494,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * to the internal BeanFactory.
 	 */
 	public List<BeanFactoryPostProcessor> getBeanFactoryPostProcessors() {
+		//获取所有的BeanFactoryPostProcessor集合
 		return this.beanFactoryPostProcessors;
 	}
 
@@ -520,16 +521,20 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			//获取ioc容器管理对象，由于ApplicationContext内部是会持有ioc容器管理对象这里一般会直接返回
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
+			//为当前环境需要使用准备bean工厂（这里最核心是添加ApplicationContextAwareProcessor)
 			prepareBeanFactory(beanFactory);
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				//允许在上下文子类中对bean工厂进行后置处理
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
+				//调用工厂处理为上下文中注册bean，这里最为核心是ConfigurationClassPostProcessor调用，它会扫描用户编写的类并加载到ioc容器中
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
@@ -650,7 +655,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.addPropertyEditorRegistrar(new ResourceEditorRegistrar(this, getEnvironment()));
 
 		// Configure the bean factory with context callbacks.
+		//添加常用的Aware自省类这个类为BeanPostProcessor实现类会在获取bean实例时进行调用
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
+		//添加那些接口调用是会忽略依赖
 		beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
 		beanFactory.ignoreDependencyInterface(EmbeddedValueResolverAware.class);
 		beanFactory.ignoreDependencyInterface(ResourceLoaderAware.class);
@@ -703,6 +710,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Must be called before singleton instantiation.
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+		//这里会委派PostProcessorRegistrationDelegate调用所有BeanFactoryPostProcessor上面方法
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime
