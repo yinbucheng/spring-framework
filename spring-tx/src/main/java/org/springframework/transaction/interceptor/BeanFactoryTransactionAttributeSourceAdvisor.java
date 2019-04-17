@@ -24,7 +24,7 @@ import org.springframework.lang.Nullable;
 /**
  * Advisor driven by a {@link TransactionAttributeSource}, used to include
  * a transaction advice bean for methods that are transactional.
- *
+ *这个类是实现事务的核心类是pointcutadivce
  * @author Juergen Hoeller
  * @since 2.5.5
  * @see #setAdviceBeanName
@@ -36,7 +36,7 @@ public class BeanFactoryTransactionAttributeSourceAdvisor extends AbstractBeanFa
 
 	@Nullable
 	private TransactionAttributeSource transactionAttributeSource;
-
+    //创建pointcut
 	private final TransactionAttributeSourcePointcut pointcut = new TransactionAttributeSourcePointcut() {
 		@Override
 		@Nullable
@@ -57,6 +57,7 @@ public class BeanFactoryTransactionAttributeSourceAdvisor extends AbstractBeanFa
 	}
 
 	/**
+	 * 设置用于类上面判断当前逻辑
 	 * Set the {@link ClassFilter} to use for this pointcut.
 	 * Default is {@link ClassFilter#TRUE}.
 	 */
@@ -64,6 +65,7 @@ public class BeanFactoryTransactionAttributeSourceAdvisor extends AbstractBeanFa
 		this.pointcut.setClassFilter(classFilter);
 	}
 
+	//获取pointcut
 	@Override
 	public Pointcut getPointcut() {
 		return this.pointcut;
