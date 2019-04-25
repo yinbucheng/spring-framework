@@ -126,6 +126,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	 * @see org.springframework.aop.target.SingletonTargetSource
 	 */
 	public void setTarget(Object target) {
+		//添加目标对象
 		setTargetSource(new SingletonTargetSource(target));
 	}
 
@@ -228,6 +229,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 
 	@Override
 	public Class<?>[] getProxiedInterfaces() {
+		//返回上面类解析的接口集合
 		return ClassUtils.toClassArray(this.interfaces);
 	}
 
@@ -385,6 +387,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	}
 
 
+	//添加拦截器到当前集合中，这里advice一般是MethodInterceptor实现对象
 	@Override
 	public void addAdvice(Advice advice) throws AopConfigException {
 		int pos = this.advisors.size();

@@ -116,14 +116,17 @@ public abstract class AopProxyUtils {
 	 * @see DecoratingProxy
 	 */
 	static Class<?>[] completeProxiedInterfaces(AdvisedSupport advised, boolean decoratingProxy) {
+		//获取ProxyFactory上面的代理类上面的接口
 		Class<?>[] specifiedInterfaces = advised.getProxiedInterfaces();
 		if (specifiedInterfaces.length == 0) {
 			// No user-specified interfaces: check whether target class is an interface.
+			//获取ProxyFactory对象上面的目标类上面的类型
 			Class<?> targetClass = advised.getTargetClass();
 			if (targetClass != null) {
+				//如果当前目标类型是接口类型则将其类添加到ProxyFactory上面的接口集合中去
 				if (targetClass.isInterface()) {
 					advised.setInterfaces(targetClass);
-				}
+				}//判断目标方法是否为Proxy的子类
 				else if (Proxy.isProxyClass(targetClass)) {
 					advised.setInterfaces(targetClass.getInterfaces());
 				}
