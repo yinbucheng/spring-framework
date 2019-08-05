@@ -193,7 +193,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	//---------------------------------------------------------------------
 	// Implementation of BeanFactory interface
 	//---------------------------------------------------------------------
-
+     //通过名称从ioc容器中获取对象
 	@Override
 	public Object getBean(String name) throws BeansException {
 		return doGetBean(name, null, null, false);
@@ -239,12 +239,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredType,
 			@Nullable final Object[] args, boolean typeCheckOnly) throws BeansException {
 
-		//进行传入name转换（比如前缀&开头，别名-- 转变为 --->唯一name表示)
+		//进行传入name转换（
+		// 1.去掉名称中的前缀，
+		// 2.别名---->类名)
 		final String beanName = transformedBeanName(name);
 		Object bean;
 
 		// Eagerly check singleton cache for manually registered singletons.
-		//从缓存中获取实例
+		//试图从缓存中获取对象
 		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
 			if (logger.isDebugEnabled()) {
@@ -256,7 +258,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					logger.debug("Returning cached instance of singleton bean '" + beanName + "'");
 				}
 			}
-			//更加实例和传入的name标示判断当前对象是直接返回还是调用getObject方法（如果当前对象是FactoryBean方法并且name标示非&开通时会调用上面的getObject方法）
+			//根据传入的名称和缓存中获取的实例进行对象转换
+			//1.如果当前名称前缀为&直接返回缓存中获取对象
+			//2.如果当前名称前缀非&并且当前对象为FactoryBean的实现类则调用上面的getObject方法
+			//3.其他情况直接返回缓存对象
 			bean = getObjectForBeanInstance(sharedInstance, name, beanName, null);
 		}
 
@@ -291,10 +296,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			try {
+				//根据完整类名从ioc容器中获取对应的数据结构
 				final RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
+				//校验当前类中是否为抽象类，如果为抽象类抛出异常
 				checkMergedBeanDefinition(mbd, beanName, args);
 
 				// Guarantee initialization of beans that the current bean depends on.
+				//从当前类的数据结构中获取其上面的依赖对象（DependOn注解已入的类）
 				String[] dependsOn = mbd.getDependsOn();
 				if (dependsOn != null) {
 					for (String dep : dependsOn) {
@@ -304,6 +312,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 						}
 						registerDependentBean(dep, beanName);
 						try {
+							//依次通过依赖类的名称调用getBean保证其优先当前对象创建
 							getBean(dep);
 						}
 						catch (NoSuchBeanDefinitionException ex) {
@@ -317,7 +326,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (mbd.isSingleton()) {
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
-							//开始创建bean对象
+							//根据当前类的全名称及类在spring容器中的数据结构创建对象
 							return createBean(beanName, mbd, args);
 						}
 						catch (BeansException ex) {
@@ -328,6 +337,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							throw ex;
 						}
 					});
+					//将获取到的对象进行转换
 					bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
 				}
 
